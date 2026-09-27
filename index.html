@@ -1,0 +1,59 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ninja Jump</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🥷 Ninja Jump</h1>
+
+        <div class="score">
+            Điểm: <span id="score">0</span>
+        </div>
+
+        <div id="game">
+
+            <div id="player">🥷</div>
+
+            <div id="obstacle"></div>
+
+            <div id="ground"></div>
+
+        </div>
+
+        <div id="gameOver">
+
+            <h2>GAME OVER</h2>
+
+            <p>Điểm: <span id="finalScore">0</span></p>
+
+            <button onclick="restartGame()">
+                Chơi lại
+            </button>
+
+        </div>
+
+        <p class="instruction">
+            Nhấn <b>SPACE</b> hoặc <b>↑</b> để nhảy
+        </p>
+
+        <button class="jumpButton" onclick="jump()">
+            🦘 NHẢY
+        </button>
+
+    </div>
+
+    <script src="game.js"></script>
+
+</body>
+</html>
+```
