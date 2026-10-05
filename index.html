@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>iPhone 17 Pro Max · iOS 26 Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="phone">
+    <div class="side left b-action"></div>
+    <div class="side left b-volup"></div>
+    <div class="side left b-voldown"></div>
+    <div class="side right b-power" id="powerBtn" title="Nguồn"></div>
+    <div class="side right b-cam"></div>
+
+    <div class="screen" id="screen">
+      <div class="wallpaper"></div>
+
+      <!-- HOME -->
+      <div class="home-wrap" id="homeWrap">
+        <div class="pages" id="pages"></div>
+        <div class="dots" id="dots"></div>
+        <div class="dock" id="dock"></div>
+      </div>
+
+      <!-- APP VIEW -->
+      <div class="app-view" id="appView"></div>
+
+      <!-- CONTROL CENTER -->
+      <div class="overlay-panel" id="cc">
+        <div class="cc-grid">
+          <div class="cc-tile" data-t="airplane"><span class="ico">✈️</span>Máy bay</div>
+          <div class="cc-tile active" data-t="wifi"><span class="ico">📶</span>Wi‑Fi</div>
+          <div class="cc-tile active" data-t="bt"><span class="ico">🔵</span>Bluetooth</div>
+          <div class="cc-tile active" data-t="cell"><span class="ico">📱</span>Di động</div>
+
+          <div class="cc-slider" data-slider="bright"><span class="ico">☀️</span><span class="label">Độ sáng</span><div class="fill" style="width:70%"></div></div>
+          <div class="cc-slider" data-slider="vol"><span class="ico">🔊</span><span class="label">Âm lượng</span><div class="fill" style="width:45%"></div></div>
+
+          <div class="cc-tile span2" data-t="music"><span class="ico">▶️</span>Phát nhạc</div>
+          <div class="cc-tile span2" data-t="lock"><span class="ico">🔒</span>Khoá</div>
+
+          <div class="cc-tile" data-t="flash"><span class="ico">🔦</span>Đèn</div>
+          <div class="cc-tile" data-t="cam"><span class="ico">📷</span>Camera</div>
+          <div class="cc-tile" data-t="calc"><span class="ico">🧮</span>Máy tính</div>
+          <div class="cc-tile" data-t="qr"><span class="ico">⬛</span>Mã QR</div>
+        </div>
+      </div>
+
+      <!-- NOTIFICATION CENTER -->
+      <div class="overlay-panel" id="nc">
+        <div style="text-align:center;margin-bottom:20px">
+          <div style="font-size:70px;font-weight:600;letter-spacing:-2px" id="ncTime">09:41</div>
+          <div style="color:rgba(255,255,255,.7);font-size:13.5px" id="ncDate">Thứ Hai, 5 tháng 10</div>
+        </div>
+        <div class="notif">
+          <div class="row"><div class="ico" style="background:linear-gradient(135deg,#5ee07a,#28a745)">💬</div><span>Tin nhắn · vừa xong</span></div>
+          <h4>Đỗ duyên</h4>
+          <p>Bạn đã xem bản cập nhật mới chưa? iOS 26 mượt lắm!</p>
+        </div>
+        <div class="notif">
+          <div class="row"><div class="ico" style="background:linear-gradient(135deg,#3ef2ff,#007aff)">📷</div><span>Ảnh · 12 phút</span></div>
+          <h4>Kỷ niệm 1 năm</h4>
+          <p>Có 24 ảnh mới trong kỷ niệm "Thái Nguyên mùa thu".</p>
+        </div>
+        <div class="notif">
+          <div class="row"><div class="ico" style="background:linear-gradient(135deg,#ff9f0a,#ff3b30)">🔥</div><span>Sức khoẻ · 1 giờ</span></div>
+          <h4>Hoàn thành mục tiêu</h4>
+          <p>Bạn đã đạt 8.432 bước hôm nay. Tiếp tục nhé!</p>
+        </div>
+      </div>
+
+      <!-- LOCK SCREEN -->
+      <div class="lock" id="lockScreen">
+        <div class="lock-date" id="lockDate">Thứ Hai, 5 tháng 10</div>
+        <div class="lock-time" id="lockTime">09:41</div>
+        <div class="lock-widgets">
+          <div class="lw">☀️ 32° · Nắng</div>
+          <div class="lw">🔋 87%</div>
+        </div>
+        <div class="lock-bottom">
+          <div class="lock-btn">🔦</div>
+          <div class="lock-btn">📷</div>
+        </div>
+        <div class="lock-hint">↑ Vuốt lên để mở khoá</div>
+      </div>
+
+      <!-- GESTURE ZONES -->
+      <div class="gz gz-tl" id="gzTL"></div>
+      <div class="gz gz-tr" id="gzTR"></div>
+      <div class="gz gz-b" id="gzB"></div>
+      <div class="gz gz-l" id="gzL"></div>
+
+      <!-- STATUS BAR -->
+      <div class="status-bar">
+        <span id="sbTime">09:41</span>
+        <div class="sb-right">
+          <svg class="sb-i" viewBox="0 0 19 12" fill="#fff"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5.3" y="5.5" width="3" height="6.5" rx="1"/><rect x="10.6" y="3" width="3" height="9" rx="1"/><rect x="15.9" y="0.5" width="3" height="11.5" rx="1"/></svg>
+          <svg class="sb-i" viewBox="0 0 16 12" fill="#fff" style="height:12px"><path d="M8 11.4l2.3-2.7a3.6 3.6 0 00-4.6 0L8 11.4z"/><path d="M8 6.4c1.6 0 3 .55 4.1 1.45l1.45-1.75A9.2 9.2 0 008 3.9a9.2 9.2 0 00-5.55 2.2L3.9 7.85A6.5 6.5 0 018 6.4z"/><path d="M8 1.4c2.45 0 4.7.82 6.5 2.2l1.35-1.75A12.3 12.3 0 008 0 12.3 12.3 0 00.15 1.85L1.5 3.6A10.6 10.6 0 018 1.4z"/></svg>
+          <div class="sb-bat"><div class="sb-bat-fill"></div></div>
+        </div>
+      </div>
+
+      <!-- DYNAMIC ISLAND -->
+      <div class="island" id="island">
+        <div class="cam"></div>
+        <div class="island-mini">
+          <div class="island-art">🎧</div>
+          <div class="island-txt">
+            <b>Neon Skyline</b>
+            <small>Synthwave Collective</small>
+          </div>
+          <div class="eq"><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+
+      <div class="home-indicator" id="homeIndicator"></div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
