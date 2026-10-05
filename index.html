@@ -1,59 +1,1008 @@
-```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>iPhone 17 Pro Max Simulator</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;
+  background:radial-gradient(circle at 50% 25%,#1e1e26 0%,#0a0a0d 60%,#000 100%);}
+body{display:flex;align-items:center;justify-content:center;}
 
-    <title>Ninja Jump</title>
+/* ===== STAGE ===== */
+.stage{transform-origin:center center;transition:transform .2s ease;}
 
-    <link rel="stylesheet" href="style.css">
+/* ===== PHONE FRAME ===== */
+.phone{
+  position:relative;width:412px;height:866px;border-radius:62px;padding:11px;
+  background:linear-gradient(145deg,#eaa87c 0%,#b9673a 14%,#8e4623 34%,#d98a52 52%,#a85a33 72%,#c97a45 88%,#eaa87c 100%);
+  box-shadow:
+    0 50px 90px rgba(0,0,0,.8),
+    0 0 0 1.5px rgba(255,255,255,.18),
+    inset 0 2px 3px rgba(255,255,255,.45),
+    inset 0 -2px 4px rgba(0,0,0,.4);
+}
+.screen{position:relative;width:100%;height:100%;border-radius:52px;overflow:hidden;background:#000;
+  box-shadow:0 0 0 2px #1a1a1a, inset 0 0 0 1px rgba(255,255,255,.06);
+  touch-action:none;}
+
+/* ===== SIDE BUTTONS ===== */
+.side{position:absolute;border-radius:3px;
+  background:linear-gradient(90deg,#7d3d1f,#e09a68 40%,#c97a45 60%,#7d3d1f);
+  box-shadow:0 1px 2px rgba(0,0,0,.5);}
+.side.left{left:-3.5px;}
+.side.right{right:-3.5px;background:linear-gradient(270deg,#7d3d1f,#e09a68 40%,#c97a45 60%,#7d3d1f);}
+.b-action{top:118px;width:4px;height:32px;}
+.b-volup{top:176px;width:4px;height:66px;}
+.b-voldown{top:256px;width:4px;height:66px;}
+.b-power{top:212px;width:4px;height:98px;cursor:pointer;}
+.b-cam{top:346px;width:4px;height:44px;cursor:pointer;}
+
+/* ===== WALLPAPER ===== */
+.wallpaper{position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255,140,60,.60), transparent 46%),
+    radial-gradient(circle at 88% 22%, rgba(255,55,120,.38), transparent 44%),
+    radial-gradient(circle at 50% 92%, rgba(95,60,255,.50), transparent 58%),
+    linear-gradient(160deg,#1d1132 0%,#2b1235 40%,#0f0818 100%);}
+
+/* ===== STATUS BAR ===== */
+.status-bar{position:absolute;top:0;left:0;right:0;height:54px;z-index:60;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 32px 0;color:#fff;font-size:15px;font-weight:600;letter-spacing:.2px;
+  pointer-events:none;font-variant-numeric:tabular-nums;}
+.sb-right{display:flex;align-items:center;gap:6px;}
+.sb-i{height:11px;}
+.sb-bat{width:25px;height:12.5px;border:1.2px solid rgba(255,255,255,.5);border-radius:4px;position:relative;padding:1.4px;}
+.sb-bat::after{content:'';position:absolute;right:-3.5px;top:3.4px;width:2px;height:5px;
+  background:rgba(255,255,255,.5);border-radius:0 1px 1px 0;}
+.sb-bat-fill{height:100%;width:82%;background:#fff;border-radius:2.2px;}
+
+/* ===== DYNAMIC ISLAND ===== */
+.island{position:absolute;top:12px;left:50%;transform:translateX(-50%);
+  width:126px;height:37px;background:#000;border-radius:20px;z-index:70;
+  transition:width .45s cubic-bezier(.3,1.4,.4,1),height .45s cubic-bezier(.3,1.4,.4,1),border-radius .45s;
+  cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 1px rgba(255,255,255,.04);}
+.island .cam{position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  width:9px;height:9px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#2b2b3a,#05050a 65%);
+  box-shadow:inset 0 0 2px #4a4a6a;transition:opacity .2s;}
+.island.open{width:344px;height:82px;border-radius:34px;}
+.island.open .cam{opacity:0;}
+.island-mini{display:flex;align-items:center;gap:12px;opacity:0;transition:opacity .25s .12s;
+  padding:0 20px;width:100%;}
+.island.open .island-mini{opacity:1;}
+.island-art{width:46px;height:46px;border-radius:12px;flex:none;
+  background:linear-gradient(135deg,#ff6b6b,#ff9f43,#feca57);}
+.island-txt{flex:1;color:#fff;overflow:hidden;}
+.island-txt b{display:block;font-size:13.5px;font-weight:600;}
+.island-txt small{font-size:11px;color:#9a9aa5;}
+.eq{display:flex;gap:3px;align-items:flex-end;height:22px;}
+.eq i{width:3px;background:#ff9f43;border-radius:2px;animation:eq .9s ease-in-out infinite;}
+.eq i:nth-child(1){height:8px;animation-delay:0s}
+.eq i:nth-child(2){height:18px;animation-delay:.15s}
+.eq i:nth-child(3){height:12px;animation-delay:.3s}
+.eq i:nth-child(4){height:20px;animation-delay:.45s}
+@keyframes eq{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+
+/* ===== LOCK SCREEN ===== */
+.lock{position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;
+  transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .45s;will-change:transform;}
+.lock.hidden{display:none;}
+.lock-date{margin-top:82px;color:rgba(255,255,255,.85);font-size:15px;font-weight:500;letter-spacing:.3px;}
+.lock-time{color:#fff;font-size:86px;font-weight:600;letter-spacing:-3px;line-height:1;margin-top:4px;
+  font-variant-numeric:tabular-nums;text-shadow:0 3px 24px rgba(0,0,0,.35);}
+.lock-widgets{display:flex;gap:10px;margin-top:16px;}
+.lw{background:rgba(255,255,255,.13);backdrop-filter:blur(18px);border-radius:16px;
+  padding:9px 15px;color:#fff;font-size:12.5px;display:flex;align-items:center;gap:7px;
+  border:1px solid rgba(255,255,255,.12);}
+.lock-bottom{position:absolute;bottom:52px;left:0;right:0;display:flex;justify-content:space-between;padding:0 46px;}
+.lock-btn{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.16);
+  backdrop-filter:blur(20px);display:grid;place-items:center;border:1px solid rgba(255,255,255,.1);
+  cursor:pointer;transition:transform .15s,background .2s;}
+.lock-btn:active{transform:scale(.9);background:rgba(255,255,255,.3);}
+.lock-hint{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:rgba(255,255,255,.6);
+  font-size:12.5px;animation:bob 2s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(-4px);opacity:1}}
+
+/* ===== HOME SCREEN ===== */
+.home{position:absolute;inset:0;z-index:20;padding:64px 24px 0;
+  display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .3s;}
+.home.hidden{transform:scale(1.12);opacity:0;pointer-events:none;}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 6px;}
+.app{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;
+  transition:transform .13s ease;}
+.app:active{transform:scale(.86);}
+.app .icon{width:60px;height:60px;border-radius:14.5px;display:grid;place-items:center;
+  box-shadow:0 6px 14px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25);
+  overflow:hidden;position:relative;}
+.app .icon svg{width:58%;height:58%;}
+.app span{font-size:11px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7);white-space:nowrap;
+  max-width:76px;overflow:hidden;text-overflow:ellipsis;font-weight:400;}
+.dots{position:absolute;bottom:138px;left:0;right:0;display:flex;justify-content:center;gap:7px;}
+.dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35);}
+.dots i.on{background:#fff;}
+.dock{position:absolute;bottom:26px;left:14px;right:14px;height:96px;border-radius:34px;
+  background:rgba(255,255,255,.15);backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);
+  display:flex;align-items:center;justify-content:space-around;padding:0 16px;
+  border:1px solid rgba(255,255,255,.12);}
+.dock .app span{display:none;}
+
+/* ===== APP VIEW ===== */
+.app-view{position:absolute;inset:0;z-index:30;background:#000;
+  transform:scale(.86);opacity:0;pointer-events:none;overflow:hidden;
+  transition:transform .34s cubic-bezier(.2,.9,.3,1),opacity .22s ease;}
+.app-view.show{transform:scale(1);opacity:1;pointer-events:auto;}
+.app-inner{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;}
+.app-top{padding:62px 22px 12px;flex:none;}
+.app-title{font-size:30px;font-weight:700;color:#fff;letter-spacing:-.5px;}
+.app-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 20px 30px;
+  -webkit-overflow-scrolling:touch;touch-action:pan-y;}
+.app-body::-webkit-scrollbar{width:0;}
+
+/* ===== HOME INDICATOR ===== */
+.home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  width:140px;height:5px;border-radius:3px;background:#fff;opacity:.92;z-index:80;cursor:pointer;
+  transition:opacity .2s,transform .2s;}
+.home-indicator:active{transform:translateX(-50%) scaleX(.9);opacity:.6;}
+
+/* ===== CALCULATOR ===== */
+.calc{position:absolute;inset:0;background:#000;display:flex;flex-direction:column;padding:0 14px 26px;}
+.calc-display{flex:1;display:flex;align-items:flex-end;justify-content:flex-end;padding:0 14px 14px;}
+.calc-display span{color:#fff;font-size:74px;font-weight:300;letter-spacing:-2px;
+  font-variant-numeric:tabular-nums;line-height:1;}
+.calc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.k{height:78px;border:none;border-radius:50%;font-size:31px;font-weight:400;color:#fff;
+  background:#333;cursor:pointer;transition:filter .1s,transform .08s;font-family:inherit;}
+.k:active{filter:brightness(1.6);transform:scale(.95);}
+.k.fn{background:#a5a5a5;color:#000;font-size:26px;}
+.k.op{background:#ff9f0a;font-size:36px;}
+.k.zero{grid-column:span 2;border-radius:40px;text-align:left;padding-left:30px;}
+
+/* ===== NOTES ===== */
+.note-item{background:rgba(255,255,255,.07);border-radius:14px;padding:14px 16px;margin-bottom:10px;
+  cursor:pointer;transition:background .2s;}
+.note-item:active{background:rgba(255,255,255,.14);}
+.note-item h4{color:#fff;font-size:15.5px;font-weight:600;margin-bottom:3px;}
+.note-item p{color:#8e8e93;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.note-item small{color:#636366;font-size:11.5px;display:block;margin-top:5px;}
+.note-edit{position:absolute;inset:0;background:#1c1c1e;display:flex;flex-direction:column;padding:62px 20px 20px;z-index:5;}
+.note-edit textarea{flex:1;background:transparent;border:none;outline:none;color:#fff;
+  font-size:17px;line-height:1.55;resize:none;font-family:inherit;touch-action:auto;}
+.note-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.note-bar button{background:none;border:none;color:#ff9f0a;font-size:16px;cursor:pointer;font-family:inherit;}
+
+/* ===== PHOTOS ===== */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.photo-grid div{aspect-ratio:1;border-radius:3px;}
+
+/* ===== WEATHER ===== */
+.weather{position:absolute;inset:0;background:linear-gradient(180deg,#2b5876,#1e3c72 55%,#0f2027);
+  display:flex;flex-direction:column;align-items:center;padding:96px 20px 20px;color:#fff;}
+.weather .city{font-size:34px;font-weight:400;}
+.weather .temp{font-size:92px;font-weight:200;letter-spacing:-4px;line-height:1;}
+.weather .cond{font-size:19px;opacity:.85;margin-top:2px;}
+.weather .hi{font-size:17px;opacity:.75;margin-top:4px;}
+.wf{width:100%;margin-top:auto;background:rgba(255,255,255,.13);border-radius:20px;padding:14px 6px;
+  display:flex;justify-content:space-between;border:1px solid rgba(255,255,255,.12);}
+.wf div{flex:1;text-align:center;font-size:13px;}
+.wf div b{display:block;font-size:16px;margin:7px 0;font-weight:500;}
+.wf .ico{font-size:19px;}
+
+/* ===== CLOCK ===== */
+.clock-face{width:190px;height:190px;border-radius:50%;border:5px solid rgba(255,255,255,.9);
+  position:relative;margin:0 auto 26px;}
+.clock-face .hand{position:absolute;bottom:50%;left:50%;transform-origin:bottom center;
+  background:#fff;border-radius:4px;}
+.hh{width:6px;height:52px;margin-left:-3px;}
+.mh{width:4px;height:74px;margin-left:-2px;}
+.sh{width:2px;height:80px;margin-left:-1px;background:#ff9f0a!important;}
+.clock-face .center{position:absolute;top:50%;left:50%;width:11px;height:11px;background:#ff9f0a;
+  border-radius:50%;transform:translate(-50%,-50%);z-index:2;}
+.world{background:rgba(255,255,255,.07);border-radius:14px;padding:13px 16px;margin-bottom:9px;
+  display:flex;justify-content:space-between;align-items:center;color:#fff;}
+.world small{color:#8e8e93;font-size:12px;display:block;margin-top:2px;}
+.world b{font-size:26px;font-weight:300;font-variant-numeric:tabular-nums;}
+
+/* ===== MUSIC ===== */
+.music-art{width:100%;aspect-ratio:1;border-radius:18px;margin-top:8px;
+  background:linear-gradient(135deg,#ff6b6b,#ff9f43 45%,#feca57);
+  box-shadow:0 24px 50px rgba(255,120,60,.35);display:grid;place-items:center;font-size:74px;}
+.music-title{color:#fff;font-size:22px;font-weight:600;margin-top:24px;}
+.music-artist{color:#8e8e93;font-size:16px;margin-top:3px;}
+.prog{height:4px;background:rgba(255,255,255,.18);border-radius:3px;margin-top:26px;overflow:hidden;}
+.prog i{display:block;height:100%;width:0%;background:#fff;border-radius:3px;}
+.times{display:flex;justify-content:space-between;color:#8e8e93;font-size:11.5px;margin-top:7px;}
+.controls{display:flex;justify-content:center;align-items:center;gap:38px;margin-top:26px;}
+.controls button{background:none;border:none;color:#fff;cursor:pointer;font-size:34px;
+  transition:transform .12s;font-family:inherit;}
+.controls button:active{transform:scale(.85);}
+.controls .play{font-size:46px;}
+
+/* ===== SETTINGS ===== */
+.set-group{background:rgba(255,255,255,.07);border-radius:14px;margin-bottom:20px;overflow:hidden;}
+.set-row{display:flex;align-items:center;gap:14px;padding:13px 16px;color:#fff;font-size:15.5px;
+  border-bottom:1px solid rgba(255,255,255,.07);cursor:pointer;}
+.set-row:last-child{border-bottom:none;}
+.set-row:active{background:rgba(255,255,255,.08);}
+.set-ico{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:16px;flex:none;}
+.set-row .arrow{margin-left:auto;color:#636366;font-size:15px;}
+.toggle{margin-left:auto;width:50px;height:30px;border-radius:16px;background:#39393d;position:relative;
+  transition:background .25s;flex:none;}
+.toggle.on{background:#30d158;}
+.toggle i{position:absolute;top:2.5px;left:2.5px;width:25px;height:25px;border-radius:50%;background:#fff;
+  transition:transform .25s;box-shadow:0 2px 5px rgba(0,0,0,.4);}
+.toggle.on i{transform:translateX(20px);}
+
+/* ===== GAME ===== */
+.game-wrap{position:absolute;inset:0;background:#070a18;}
+.game-wrap canvas{display:block;width:100%;height:100%;}
+.game-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;color:#fff;gap:14px;pointer-events:none;text-align:center;padding:20px;}
+.game-overlay h2{font-size:34px;font-weight:800;letter-spacing:-1px;
+  background:linear-gradient(90deg,#3ef2ff,#b06bff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.game-overlay p{font-size:14.5px;color:#9aa3c7;line-height:1.7;}
+.game-overlay .btn{padding:13px 34px;border-radius:30px;border:none;color:#04101c;font-weight:700;
+  background:linear-gradient(90deg,#3ef2ff,#7d9bff);font-size:15px;cursor:pointer;font-family:inherit;
+  pointer-events:auto;box-shadow:0 10px 30px rgba(62,242,255,.35);}
+.game-overlay .btn:active{transform:scale(.95);}
+
+/* ===== MISC ===== */
+.stub{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;color:#8e8e93;padding:40px;text-align:center;}
+.stub .big{font-size:60px;}
+.stub h3{color:#fff;font-size:20px;font-weight:600;}
+.stub p{font-size:14px;line-height:1.6;max-width:250px;}
+.empty{color:#636366;text-align:center;padding:60px 20px;font-size:14.5px;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:460px){
+  .phone{transform-origin:center center;}
+}
+</style>
 </head>
-
 <body>
+<div class="stage" id="stage">
+  <div class="phone">
+    <div class="side left b-action"></div>
+    <div class="side left b-volup"></div>
+    <div class="side left b-voldown"></div>
+    <div class="side right b-power" id="powerBtn" title="Nguồn"></div>
+    <div class="side right b-cam"></div>
 
-    <div class="container">
+    <div class="screen" id="screen">
+      <div class="wallpaper"></div>
 
-        <h1>🥷 Ninja Jump</h1>
+      <!-- APP VIEW -->
+      <div class="app-view" id="appView"></div>
 
-        <div class="score">
-            Điểm: <span id="score">0</span>
+      <!-- HOME -->
+      <div class="home hidden" id="homeScreen">
+        <div class="grid" id="appGrid"></div>
+        <div class="dots"><i class="on"></i><i></i><i></i></div>
+        <div class="dock" id="dock"></div>
+      </div>
+
+      <!-- LOCK -->
+      <div class="lock" id="lockScreen">
+        <div class="lock-date" id="lockDate">Thứ Hai, 5 tháng 10</div>
+        <div class="lock-time" id="lockTime">09:41</div>
+        <div class="lock-widgets">
+          <div class="lw">☀️ 32°C · Nắng</div>
+          <div class="lw">🔋 87%</div>
         </div>
-
-        <div id="game">
-
-            <div id="player">🥷</div>
-
-            <div id="obstacle"></div>
-
-            <div id="ground"></div>
-
+        <div class="lock-bottom">
+          <div class="lock-btn" onclick="void 0">🔦</div>
+          <div class="lock-btn" onclick="void 0">📷</div>
         </div>
+        <div class="lock-hint">↑ Vuốt lên để mở khoá</div>
+      </div>
 
-        <div id="gameOver">
-
-            <h2>GAME OVER</h2>
-
-            <p>Điểm: <span id="finalScore">0</span></p>
-
-            <button onclick="restartGame()">
-                Chơi lại
-            </button>
-
+      <!-- STATUS BAR -->
+      <div class="status-bar">
+        <span id="sbTime">09:41</span>
+        <div class="sb-right">
+          <svg class="sb-i" viewBox="0 0 19 12" fill="#fff"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5.3" y="5.5" width="3" height="6.5" rx="1"/><rect x="10.6" y="3" width="3" height="9" rx="1"/><rect x="15.9" y="0.5" width="3" height="11.5" rx="1"/></svg>
+          <svg class="sb-i" viewBox="0 0 16 12" fill="#fff" style="height:12px"><path d="M8 11.4l2.3-2.7a3.6 3.6 0 00-4.6 0L8 11.4z"/><path d="M8 6.4c1.6 0 3 .55 4.1 1.45l1.45-1.75A9.2 9.2 0 008 3.9a9.2 9.2 0 00-5.55 2.2L3.9 7.85A6.5 6.5 0 018 6.4z"/><path d="M8 1.4c2.45 0 4.7.82 6.5 2.2l1.35-1.75A12.3 12.3 0 008 0 12.3 12.3 0 00.15 1.85L1.5 3.6A10.6 10.6 0 018 1.4z"/></svg>
+          <div class="sb-bat"><div class="sb-bat-fill"></div></div>
         </div>
+      </div>
 
-        <p class="instruction">
-            Nhấn <b>SPACE</b> hoặc <b>↑</b> để nhảy
-        </p>
+      <!-- DYNAMIC ISLAND -->
+      <div class="island" id="island">
+        <div class="cam"></div>
+        <div class="island-mini">
+          <div class="island-art"></div>
+          <div class="island-txt">
+            <b>Neon Skyline</b>
+            <small>Synthwave Collective</small>
+          </div>
+          <div class="eq"><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
 
-        <button class="jumpButton" onclick="jump()">
-            🦘 NHẢY
-        </button>
-
+      <div class="home-indicator" id="homeIndicator"></div>
     </div>
+  </div>
+</div>
 
-    <script src="game.js"></script>
+<script>
+/* =========================================================
+   ICONS
+   ========================================================= */
+const I = {
+  phone:`<svg viewBox="0 0 24 24" fill="#fff"><path d="M6.6 10.8c1.45 2.85 3.75 5.15 6.6 6.6l2.2-2.2c.28-.28.68-.37 1.04-.25 1.12.37 2.32.57 3.56.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.6 21 3 13.4 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.44.57 3.56.12.36.03.76-.25 1.04l-2.22 2.2z"/></svg>`,
+  msg:`<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3.2C6.9 3.2 3 6.75 3 11.1c0 2.45 1.28 4.65 3.3 6.12V21.4l3.35-1.85c.76.16 1.55.25 2.35.25 5.1 0 9-3.55 9-7.9S17.1 3.2 12 3.2z"/></svg>`,
+  safari:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.2" fill="none" stroke="#fff" stroke-width="1.5"/><path d="M16.8 7.2l-2.7 6.5-6.5 2.7 2.7-6.5z" fill="#ff3b30"/><path d="M16.8 7.2l-4.5 4.5-4.7 4.7 2.7-6.5z" fill="#fff"/></svg>`,
+  camera:`<svg viewBox="0 0 24 24"><path d="M9.2 3.6l-1.4 2H4.2c-.9 0-1.6.72-1.6 1.6v11.2c0 .88.7 1.6 1.6 1.6h15.6c.9 0 1.6-.72 1.6-1.6V7.2c0-.88-.7-1.6-1.6-1.6h-3.6l-1.4-2H9.2z" fill="#fff"/><circle cx="12" cy="12.6" r="3.7" fill="#3a3a3c"/><circle cx="12" cy="12.6" r="2.2" fill="#8e8e93"/></svg>`,
+  photos:`<svg viewBox="0 0 24 24"><g transform="translate(12,12)" style="mix-blend-mode:multiply"><ellipse rx="2.6" ry="6.4" fill="#ffcc00" transform="rotate(0)"/><ellipse rx="2.6" ry="6.4" fill="#ff9500" transform="rotate(45)"/><ellipse rx="2.6" ry="6.4" fill="#ff3b30" transform="rotate(90)"/><ellipse rx="2.6" ry="6.4" fill="#ff2d55" transform="rotate(135)"/><ellipse rx="2.6" ry="6.4" fill="#af52de" transform="rotate(180)"/><ellipse rx="2.6" ry="6.4" fill="#007aff" transform="rotate(225)"/><ellipse rx="2.6" ry="6.4" fill="#34c759" transform="rotate(270)"/><ellipse rx="2.6" ry="6.4" fill="#5ac8fa" transform="rotate(315)"/></g></svg>`,
+  weather:`<svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3.6" fill="#ffcc00"/><path d="M17.5 19H7.2a4.2 4.2 0 010-8.4h.35A5.4 5.4 0 0117.6 12a3.5 3.5 0 01-.1 7z" fill="#fff"/></svg>`,
+  clock:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#fff"/><g stroke="#1c1c1e" stroke-width="1.3" stroke-linecap="round"><path d="M12 3.2v2M12 18.8v2M3.2 12h2M18.8 12h2"/></g><path d="M12 12V6.6" stroke="#1c1c1e" stroke-width="1.7" stroke-linecap="round"/><path d="M12 12l3.6 2.4" stroke="#1c1c1e" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="12" r="1.2" fill="#ff9f0a"/></svg>`,
+  maps:`<svg viewBox="0 0 24 24"><path d="M12 2.5c-3.6 0-6.5 2.9-6.5 6.5 0 4.9 6.5 12.5 6.5 12.5S18.5 13.9 18.5 9c0-3.6-2.9-6.5-6.5-6.5z" fill="#fff"/><circle cx="12" cy="9" r="2.5" fill="#34c759"/></svg>`,
+  notes:`<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" fill="#fff"/><g stroke="#c7c7cc" stroke-width="1.4" stroke-linecap="round"><path d="M7 8.5h10M7 12h10M7 15.5h6"/></g></svg>`,
+  calc:`<svg viewBox="0 0 24 24"><rect x="3.5" y="2.5" width="17" height="19" rx="3" fill="#3a3a3c"/><rect x="6" y="5" width="12" height="4.2" rx="1" fill="#8e8e93"/><g fill="#ff9f0a"><circle cx="7.6" cy="12.4" r="1.5"/><circle cx="12" cy="12.4" r="1.5"/><circle cx="16.4" cy="12.4" r="1.5"/><circle cx="7.6" cy="17.2" r="1.5"/><circle cx="12" cy="17.2" r="1.5"/><circle cx="16.4" cy="17.2" r="1.5"/></g></svg>`,
+  settings:`<svg viewBox="0 0 24 24"><g fill="#fff"><circle cx="12" cy="12" r="8.4"/><rect x="10.8" y="0.4" width="2.4" height="5" rx="1.1"/><rect x="10.8" y="0.4" width="2.4" height="5" rx="1.1" transform="rotate(45 12 12)"/><rect x="10.8" y="0.4" width="2.4" height="5" rx="1.1" transform="rotate(90 12 12)"/><rect x="10.8" y="0.4" width="2.4" height="5" rx="1.1" transform="rotate(135 12 12)"/><rect x="10.8" y="0.4" width="2.4" height="5" rx="1.1" transform="rotate(180 12 12)"/><rect x="10.8" y="0.4" width="2.4" height="5" rx="1.1" transform="rotate(225 12 12)"/><rect x="10.8" y="0.4" width="2.4" height="5" rx="1.1" transform="rotate(270 12 12)"/><rect x="10.8" y="0.4" width="2.4" height="5" rx="1.1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="3.6" fill="#8e8e93"/><circle cx="12" cy="12" r="1.7" fill="#3a3a3c"/></svg>`,
+  game:`<svg viewBox="0 0 24 24" fill="#fff"><path d="M7.2 6h9.6a5.2 5.2 0 015.1 6.2l-.85 4.3A2.6 2.6 0 0118.5 18.5c-.75 0-1.46-.32-1.96-.88L15 15.9H9l-1.54 1.72c-.5.56-1.2.88-1.96.88a2.6 2.6 0 01-2.55-2L2.1 12.2A5.2 5.2 0 017.2 6z"/><path d="M7.4 10.6v3.2M5.8 12.2h3.2" stroke="#1c1c1e" stroke-width="1.5" stroke-linecap="round"/><circle cx="16" cy="11.4" r="1.25" fill="#1c1c1e"/><circle cx="18.2" cy="13.6" r="1.25" fill="#1c1c1e"/></svg>`,
+  appstore:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"><path d="M6.6 17.6L12 8.2l5.4 9.4"/><path d="M9.1 13.8h5.8"/><path d="M4.4 20.6l1.6-2.8"/><path d="M19.6 20.6l-1.6-2.8"/></svg>`,
+  calendar:`<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="3" fill="#fff"/><rect x="3" y="4" width="18" height="5" rx="3" fill="#ff3b30"/><text x="12" y="18.4" font-size="9.5" font-weight="700" fill="#1c1c1e" text-anchor="middle" font-family="Helvetica,Arial">${new Date().getDate()}</text></svg>`,
+  health:`<svg viewBox="0 0 24 24"><path d="M12 20.5S3.5 15 3.5 9.2A4.7 4.7 0 0112 6.4a4.7 4.7 0 018.5 2.8c0 5.8-8.5 11.3-8.5 11.3z" fill="#fff"/></svg>`,
+  music:`<svg viewBox="0 0 24 24" fill="#fff"><path d="M20.5 2.6v11.9a3.15 3.15 0 11-2.1-2.97V7.05l-8 1.7v8.75a3.15 3.15 0 11-2.1-2.97V5.6l12.2-3z"/></svg>`,
+  wallet:`<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="3" fill="#fff"/><rect x="3" y="4.6" width="18" height="6" rx="2.4" fill="#5ac8fa"/><rect x="3" y="11" width="18" height="5.4" rx="1.6" fill="#ff9f0a"/><rect x="14.5" y="12.4" width="5" height="3" rx="1.5" fill="#1c1c1e"/></svg>`,
+  podcast:`<svg viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="8" r="3.4"/><path d="M12 12.6c-2.6 0-4.6 1.7-4.2 4l.9 4.2c.15.7.75 1.2 1.5 1.2h3.6c.75 0 1.35-.5 1.5-1.2l.9-4.2c.4-2.3-1.6-4-4.2-4z"/><path d="M5.8 9.6a6.8 6.8 0 1112.4 0" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+  reminders:`<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" fill="#fff"/><g><circle cx="7.6" cy="8.4" r="1.6" fill="#ff3b30"/><circle cx="7.6" cy="14" r="1.6" fill="#ff9500"/><circle cx="7.6" cy="19.6" r="1.6" fill="#007aff"/></g></svg>`,
+  compass:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#1c1c1e"/><circle cx="12" cy="12" r="9" fill="none" stroke="#48484a" stroke-width="1"/><path d="M16.2 7.8l-2.6 6.4-6.4 2.6 2.6-6.4z" fill="#ff3b30"/><path d="M16.2 7.8l-4.5 4.5-4.5 4.5 2.6-6.4z" fill="#fff"/></svg>`,
+  tv:`<svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="13" rx="2.6" fill="#1c1c1e"/><rect x="2.5" y="5" width="19" height="13" rx="2.6" fill="none" stroke="#48484a" stroke-width="1.2"/><text x="12" y="14" font-size="7" font-weight="700" fill="#fff" text-anchor="middle" font-family="Helvetica,Arial">tv</text></svg>`
+};
 
+/* =========================================================
+   APP DEFINITIONS
+   ========================================================= */
+const APPS = [
+  { id:'camera', name:'Camera', bg:'linear-gradient(180deg,#6e6e73,#3a3a3c)', icon:I.camera,
+    render:()=>stub('📷','Camera','Camera 48MP Fusion · Zoom quang học 8x.') },
+
+  { id:'photos', name:'Ảnh', bg:'#fff', icon:I.photos,
+    render:()=>{
+      let t='';
+      const hues=[[ '#ff9a9e','#fad0c4'],['#a18cd1','#fbc2eb'],['#ffecd2','#fcb69f'],['#84fab0','#8fd3f4'],
+        ['#a1c4fd','#c2e9fb'],['#fbc2eb','#a6c1ee'],['#fdcbf1','#e6dee9'],['#f6d365','#fda085'],
+        ['#5ee7df','#b490ca'],['#d299c2','#fef9d7'],['#f093fb','#f5576c'],['#4facfe','#00f2fe'],
+        ['#43e97b','#38f9d7'],['#fa709a','#fee140'],['#30cfd0','#330867'],['#a8edea','#fed6e3'],
+        ['#ff0844','#ffb199'],['#c471f5','#fa71cd']];
+      for(let i=0;i<18;i++){ const h=hues[i%hues.length];
+        t+=`<div style="background:linear-gradient(135deg,${h[0]},${h[1]})"></div>`; }
+      return `<div class="app-inner" style="background:#000">
+        <div class="app-top"><span class="app-title">Ảnh</span></div>
+        <div class="app-body"><div class="photo-grid">${t}</div></div></div>`;
+    }},
+
+  { id:'weather', name:'Thời tiết', bg:'linear-gradient(180deg,#4facfe,#00f2fe)', icon:I.weather,
+    render:()=>`<div class="weather">
+        <div class="city">Hà Nội</div>
+        <div class="temp">32°</div>
+        <div class="cond">Nắng có mây</div>
+        <div class="hi">Cao 34° · Thấp 26°</div>
+        <div class="wf">
+          <div><small>T2</small><div class="ico">☀️</div><b>32°</b></div>
+          <div><small>T3</small><div class="ico">⛅</div><b>31°</b></div>
+          <div><small>T4</small><div class="ico">🌧️</div><b>28°</b></div>
+          <div><small>T5</small><div class="ico">⛈️</div><b>27°</b></div>
+          <div><small>T6</small><div class="ico">☀️</div><b>33°</b></div>
+        </div>
+      </div>` },
+
+  { id:'clock', name:'Đồng hồ', bg:'#000', icon:I.clock,
+    render:()=>`<div class="app-inner" style="background:#000">
+      <div class="app-top"><span class="app-title">Đồng hồ</span></div>
+      <div class="app-body">
+        <div class="clock-face">
+          <div class="hand hh" id="hHour"></div>
+          <div class="hand mh" id="hMin"></div>
+          <div class="hand sh" id="hSec"></div>
+          <div class="center"></div>
+        </div>
+        <div class="world"><div><b>Hà Nội</b><small>Hôm nay</small></div><b id="wcHN">--:--</b></div>
+        <div class="world"><div><b>Tokyo</b><small>+2 giờ</small></div><b id="wcTK">--:--</b></div>
+        <div class="world"><div><b>New York</b><small>-11 giờ</small></div><b id="wcNY">--:--</b></div>
+        <div class="world"><div><b>London</b><small>-6 giờ</small></div><b id="wcLD">--:--</b></div>
+      </div></div>`,
+    init:(root)=>{
+      const tick=()=>{
+        const d=new Date();
+        const s=d.getSeconds(), m=d.getMinutes(), h=d.getHours()%12;
+        const set=(id,deg)=>{ const el=root.querySelector(id); if(el) el.style.transform=`rotate(${deg}deg)`; };
+        set('#hSec', s*6);
+        set('#hMin', m*6 + s*0.1);
+        set('#hHour', h*30 + m*0.5);
+        const p=(n)=>{ const x=new Date(d.getTime()+n*3600000); return String(x.getHours()).padStart(2,'0')+':'+String(x.getMinutes()).padStart(2,'0'); };
+        const a=root.querySelector('#wcHN'); if(a) a.textContent=p(0);
+        const b=root.querySelector('#wcTK'); if(b) b.textContent=p(2);
+        const c=root.querySelector('#wcNY'); if(c) c.textContent=p(-11);
+        const e=root.querySelector('#wcLD'); if(e) e.textContent=p(-6);
+      };
+      tick();
+      const iv=setInterval(tick,1000);
+      return ()=>clearInterval(iv);
+    }},
+
+  { id:'maps', name:'Bản đồ', bg:'linear-gradient(135deg,#8ecae6,#219ebc)', icon:I.maps,
+    render:()=>stub('🗺️','Bản đồ','Vị trí hiện tại: Hà Nội, Việt Nam') },
+
+  { id:'notes', name:'Ghi chú', bg:'#1c1c1e', icon:I.notes,
+    render:()=>`<div class="app-inner" style="background:#1c1c1e">
+      <div class="app-top"><span class="app-title">Ghi chú</span></div>
+      <div class="app-body" id="notesList"></div>
+      <div class="note-edit" id="noteEdit" style="display:none">
+        <div class="note-bar">
+          <button id="noteBack">‹ Danh sách</button>
+          <button id="noteDone">Xong</button>
+        </div>
+        <textarea id="noteArea" placeholder="Bắt đầu viết..."></textarea>
+      </div>
+    </div>`,
+    init:(root)=>{
+      const list=[{t:'Ý tưởng làm game',c:'Làm một con game flappy bird bằng canvas, thêm hiệu ứng neon.',d:'Hôm nay'},
+                  {t:'Mua sắm',c:'Sữa, trứng, bánh mì, cà phê, táo',d:'Hôm qua'}];
+      const listEl=root.querySelector('#notesList');
+      const editEl=root.querySelector('#noteEdit');
+      const area=root.querySelector('#noteArea');
+      let editing=-1;
+      function draw(){
+        if(!list.length){ listEl.innerHTML='<div class="empty">Chưa có ghi chú nào</div>'; return; }
+        listEl.innerHTML=list.map((n,i)=>`<div class="note-item" data-i="${i}">
+          <h4>${esc(n.t)}</h4><p>${esc(n.c)}</p><small>${n.d}</small></div>`).join('');
+        listEl.querySelectorAll('.note-item').forEach(el=>{
+          el.onclick=()=>{ editing=+el.dataset.i; area.value=list[editing].c; editEl.style.display='flex'; };
+        });
+      }
+      root.querySelector('#noteBack').onclick=()=>{
+        if(editing>=0){ list[editing].c=area.value; }
+        editEl.style.display='none'; draw();
+      };
+      root.querySelector('#noteDone').onclick=()=>{
+        const txt=area.value.trim();
+        if(txt){ if(editing>=0) list[editing].c=txt; else list.unshift({t:txt.split('\n')[0].slice(0,24),c:txt,d:'Vừa xong'}); }
+        editEl.style.display='none'; draw();
+      };
+      draw();
+    }},
+
+  { id:'calc', name:'Máy tính', bg:'#000', icon:I.calc,
+    render:()=>`<div class="calc">
+      <div class="calc-display"><span id="calcOut">0</span></div>
+      <div class="calc-keys">
+        <button class="k fn" data-k="AC">AC</button>
+        <button class="k fn" data-k="+/-">+/−</button>
+        <button class="k fn" data-k="%">%</button>
+        <button class="k op" data-k="/">÷</button>
+        <button class="k" data-k="7">7</button>
+        <button class="k" data-k="8">8</button>
+        <button class="k" data-k="9">9</button>
+        <button class="k op" data-k="*">×</button>
+        <button class="k" data-k="4">4</button>
+        <button class="k" data-k="5">5</button>
+        <button class="k" data-k="6">6</button>
+        <button class="k op" data-k="-">−</button>
+        <button class="k" data-k="1">1</button>
+        <button class="k" data-k="2">2</button>
+        <button class="k" data-k="3">3</button>
+        <button class="k op" data-k="+">+</button>
+        <button class="k zero" data-k="0">0</button>
+        <button class="k" data-k=".">,</button>
+        <button class="k op" data-k="=">=</button>
+      </div></div>`,
+    init:(root)=>{
+      const out=root.querySelector('#calcOut');
+      let cur='0', prev=null, op=null, wait=false;
+      const fmt=(n)=>{ if(!isFinite(n)) return 'Lỗi';
+        let s=String(parseFloat(n.toPrecision(12)));
+        return s.replace('.',','); };
+      root.querySelectorAll('.k').forEach(b=>{
+        b.onclick=()=>{
+          const k=b.dataset.k;
+          if(k==='AC'){ cur='0'; prev=null; op=null; wait=false; out.textContent='0'; return; }
+          if(k==='+/-'){ cur = cur.startsWith('-') ? cur.slice(1) : (cur==='0'?'0':'-'+cur); out.textContent=cur.replace('.',','); return; }
+          if(k==='%'){ cur=String(parseFloat(cur)/100); out.textContent=fmt(parseFloat(cur)); return; }
+          if('+-*/'.includes(k)){
+            if(op && !wait){ cur=String(calc(parseFloat(prev),parseFloat(cur),op)); out.textContent=fmt(parseFloat(cur)); }
+            prev=cur; op=k; wait=true; return;
+          }
+          if(k==='='){
+            if(op){ cur=String(calc(parseFloat(prev),parseFloat(cur),op)); out.textContent=fmt(parseFloat(cur)); prev=null; op=null; wait=false; }
+            return;
+          }
+          if(k==='.'){ if(wait){ cur='0'; wait=false; } if(!cur.includes('.')) cur+='.'; out.textContent=cur.replace('.',','); return; }
+          if(wait){ cur=k; wait=false; } else { cur = cur==='0' ? k : cur+k; }
+          out.textContent=cur.replace('.',',');
+        };
+      });
+      function calc(a,b,o){ return o==='+'?a+b : o==='-'?a-b : o==='*'?a*b : b===0?NaN : a/b; }
+    }},
+
+  { id:'settings', name:'Cài đặt', bg:'#000', icon:I.settings,
+    render:()=>`<div class="app-inner" style="background:#000">
+      <div class="app-top"><span class="app-title">Cài đặt</span></div>
+      <div class="app-body">
+        <div class="set-group">
+          <div class="set-row"><div class="set-ico" style="background:#ff9f0a">✈️</div>Chế độ máy bay<div class="toggle" data-t><i></i></div></div>
+          <div class="set-row"><div class="set-ico" style="background:#007aff">📶</div>Wi‑Fi<div class="arrow">Nhà tôi ›</div></div>
+          <div class="set-row"><div class="set-ico" style="background:#34c759">🔵</div>Bluetooth<div class="arrow">Bật ›</div></div>
+          <div class="set-row"><div class="set-ico" style="background:#30d158">📱</div>Di động<div class="toggle on" data-t><i></i></div></div>
+        </div>
+        <div class="set-group">
+          <div class="set-row"><div class="set-ico" style="background:#8e8e93">🔔</div>Thông báo<div class="arrow">›</div></div>
+          <div class="set-row"><div class="set-ico" style="background:#ff375f">🔊</div>Âm thanh &amp; Cảm ứng<div class="arrow">›</div></div>
+          <div class="set-row"><div class="set-ico" style="background:#5856d6">🌙</div>Màn hình &amp; Độ sáng<div class="arrow">›</div></div>
+          <div class="set-row"><div class="set-ico" style="background:#5ac8fa">🔒</div>Face ID &amp; Mật mã<div class="arrow">›</div></div>
+        </div>
+        <div class="set-group">
+          <div class="set-row"><div class="set-ico" style="background:#8e8e93">⚙️</div>Cài đặt chung<div class="arrow">›</div></div>
+          <div class="set-row"><div class="set-ico" style="background:#1c1c1e">♿</div>Trợ năng<div class="arrow">›</div></div>
+        </div>
+        <div style="text-align:center;color:#48484a;font-size:12.5px;padding:6px 0 30px">
+          iPhone 17 Pro Max · iOS 26.1<br>Bộ nhớ 256 GB · Còn 128 GB
+        </div>
+      </div></div>`,
+    init:(root)=>{
+      root.querySelectorAll('[data-t]').forEach(t=>t.onclick=(e)=>{ e.stopPropagation(); t.classList.toggle('on'); });
+    }},
+
+  { id:'music', name:'Âm nhạc', bg:'linear-gradient(135deg,#fa709a,#fee140)', icon:I.music,
+    render:()=>`<div class="app-inner" style="background:linear-gradient(180deg,#1a0f1f,#0a0a0d 60%)">
+      <div class="app-top"><span class="app-title">Đang phát</span></div>
+      <div class="app-body">
+        <div class="music-art">🎧</div>
+        <div class="music-title">Neon Skyline</div>
+        <div class="music-artist">Synthwave Collective</div>
+        <div class="prog"><i id="progBar"></i></div>
+        <div class="times"><span id="tCur">0:00</span><span id="tEnd">3:42</span></div>
+        <div class="controls">
+          <button id="prevBtn">⏮</button>
+          <button class="play" id="playBtn">▶</button>
+          <button id="nextBtn">⏭</button>
+        </div>
+      </div></div>`,
+    init:(root)=>{
+      let playing=true, t=0, total=222;
+      const bar=root.querySelector('#progBar'), cur=root.querySelector('#tCur'), play=root.querySelector('#playBtn');
+      const fmt=(s)=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+      const iv=setInterval(()=>{
+        if(playing){ t+=1; if(t>=total) t=0; }
+        bar.style.width=(t/total*100)+'%';
+        cur.textContent=fmt(t);
+      },1000);
+      play.onclick=()=>{ playing=!playing; play.textContent=playing?'▶':'⏸'; };
+      root.querySelector('#prevBtn').onclick=()=>{ t=0; };
+      root.querySelector('#nextBtn').onclick=()=>{ t=0; };
+      return ()=>clearInterval(iv);
+    }},
+
+  { id:'game', name:'Game', bg:'linear-gradient(135deg,#3ef2ff,#b06bff)', icon:I.game,
+    render:()=>`<div class="game-wrap" id="gameWrap">
+        <div class="game-overlay" id="gameOverlay">
+          <h2>NEON FLAPPY</h2>
+          <p>Chạm để bay lên.<br>Vượt qua các cột neon!</p>
+          <button class="btn" id="startBtn">BẮT ĐẦU</button>
+        </div>
+      </div>`,
+    init:(root)=>{
+      const wrap=root.querySelector('#gameWrap');
+      const overlay=root.querySelector('#gameOverlay');
+      const cv=document.createElement('canvas');
+      const W=390,H=844;
+      cv.width=W; cv.height=H;
+      wrap.appendChild(cv);
+      const ctx=cv.getContext('2d');
+
+      let bird,pipes,score,best=0,over,started,raf,stars;
+      const G=0.52, JUMP=-8.6, GAP=178, PW=68, SPEED=3.1;
+
+      function initStars(){
+        stars=[];
+        for(let i=0;i<60;i++) stars.push({x:Math.random()*W,y:Math.random()*H*.8,r:Math.random()*1.5+.3,a:Math.random()*.7+.2});
+      }
+
+      function reset(){
+        bird={x:108,y:340,v:0,r:15,rot:0};
+        pipes=[]; score=0; over=false; started=false;
+        for(let i=0;i<4;i++) pipes.push({x:460+i*225, gy:170+Math.random()*330, passed:false});
+        initStars();
+      }
+
+      function jump(){
+        if(over){ return; }
+        if(!started){ started=true; overlay.style.display='none'; }
+        bird.v=JUMP;
+      }
+
+      function loop(){
+        update();
+        draw();
+        raf=requestAnimationFrame(loop);
+      }
+
+      function update(){
+        if(!started||over) return;
+        bird.v+=G;
+        bird.y+=bird.v;
+        bird.rot=Math.max(-.5,Math.min(1.2, bird.v*0.06));
+
+        if(bird.y-bird.r<0){ bird.y=bird.r; bird.v=0; }
+        if(bird.y+bird.r>H-60){ gameOver(); }
+
+        pipes.forEach(p=>{
+          p.x-=SPEED;
+          if(p.x+PW<-20){
+            p.x+=pipes.length*225;
+            p.gy=170+Math.random()*330;
+            p.passed=false;
+          }
+          if(!p.passed && p.x+PW < bird.x-bird.r){ p.passed=true; score++; }
+          if(hit(p)) gameOver();
+        });
+      }
+
+      function hit(p){
+        if(bird.x+bird.r < p.x || bird.x-bird.r > p.x+PW) return false;
+        return bird.y-bird.r < p.gy-GAP/2 || bird.y+bird.r > p.gy+GAP/2;
+      }
+
+      function gameOver(){
+        if(over) return;
+        over=true;
+        best=Math.max(best,score);
+        overlay.style.display='flex';
+        overlay.innerHTML=`<h2>KẾT THÚC</h2>
+          <p>Điểm: <b style="color:#3ef2ff;font-size:22px">${score}</b><br>Kỷ lục: ${best}</p>
+          <button class="btn" id="startBtn">CHƠI LẠI</button>`;
+        overlay.querySelector('#startBtn').onclick=(e)=>{
+          e.stopPropagation();
+          overlay.style.display='none';
+          reset(); started=true;
+        };
+      }
+
+      function draw(){
+        // sky
+        const g=ctx.createLinearGradient(0,0,0,H);
+        g.addColorStop(0,'#0a0e27'); g.addColorStop(.55,'#141033'); g.addColorStop(1,'#1d0b2e');
+        ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+
+        // stars
+        stars.forEach(s=>{
+          ctx.globalAlpha=s.a;
+          ctx.fillStyle='#cfe6ff';
+          ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,7); ctx.fill();
+        });
+        ctx.globalAlpha=1;
+
+        // sun glow
+        const rg=ctx.createRadialGradient(300,180,0,300,180,240);
+        rg.addColorStop(0,'rgba(176,107,255,.35)');
+        rg.addColorStop(1,'rgba(176,107,255,0)');
+        ctx.fillStyle=rg; ctx.fillRect(0,0,W,H);
+
+        // pipes
+        pipes.forEach(p=>{
+          drawPipe(p.x, 0, PW, p.gy-GAP/2, true);
+          drawPipe(p.x, p.gy+GAP/2, PW, H-(p.gy+GAP/2), false);
+        });
+
+        // ground
+        const gg=ctx.createLinearGradient(0,H-60,0,H);
+        gg.addColorStop(0,'#1a0f2e'); gg.addColorStop(1,'#08050f');
+        ctx.fillStyle=gg; ctx.fillRect(0,H-60,W,60);
+        ctx.strokeStyle='rgba(62,242,255,.5)';
+        ctx.lineWidth=2;
+        ctx.beginPath(); ctx.moveTo(0,H-60); ctx.lineTo(W,H-60); ctx.stroke();
+
+        // bird
+        ctx.save();
+        ctx.translate(bird.x,bird.y);
+        ctx.rotate(bird.rot);
+        ctx.shadowColor='#3ef2ff'; ctx.shadowBlur=22;
+        const bg=ctx.createRadialGradient(-4,-4,1,0,0,bird.r+3);
+        bg.addColorStop(0,'#b8fbff'); bg.addColorStop(.6,'#3ef2ff'); bg.addColorStop(1,'#1c8fa8');
+        ctx.fillStyle=bg;
+        ctx.beginPath(); ctx.arc(0,0,bird.r,0,7); ctx.fill();
+        ctx.shadowBlur=0;
+        // eye
+        ctx.fillStyle='#04101c';
+        ctx.beginPath(); ctx.arc(5,-4,3.4,0,7); ctx.fill();
+        ctx.fillStyle='#fff';
+        ctx.beginPath(); ctx.arc(6,-5,1.3,0,7); ctx.fill();
+        // beak
+        ctx.fillStyle='#ffb547';
+        ctx.beginPath(); ctx.moveTo(bird.r-2,1); ctx.lineTo(bird.r+9,5); ctx.lineTo(bird.r-2,9); ctx.closePath(); ctx.fill();
+        ctx.restore();
+
+        // score
+        ctx.font='800 62px -apple-system,Helvetica,Arial';
+        ctx.textAlign='center';
+        ctx.fillStyle='rgba(255,255,255,.92)';
+        ctx.shadowColor='#3ef2ff'; ctx.shadowBlur=24;
+        if(started) ctx.fillText(score, W/2, 130);
+        ctx.shadowBlur=0;
+      }
+
+      function drawPipe(x,y,w,h,isTop){
+        const grad=ctx.createLinearGradient(x,0,x+w,0);
+        grad.addColorStop(0,'#0d5f7a'); grad.addColorStop(.35,'#3ef2ff');
+        grad.addColorStop(.65,'#7de8ff'); grad.addColorStop(1,'#0d5f7a');
+        ctx.shadowColor='#3ef2ff'; ctx.shadowBlur=18;
+        ctx.fillStyle=grad;
+        roundRect(x,y,w,h,10); ctx.fill();
+        ctx.shadowBlur=0;
+        // lip
+        const lx=x-6, lw=w+12, lh=24;
+        const ly = isTop ? y+h-lh : y;
+        ctx.fillStyle=grad;
+        roundRect(lx,ly,lw,lh,8); ctx.fill();
+      }
+
+      function roundRect(x,y,w,h,r){
+        ctx.beginPath();
+        ctx.moveTo(x+r,y);
+        ctx.arcTo(x+w,y,x+w,y+h,r);
+        ctx.arcTo(x+w,y+h,x,y+h,r);
+        ctx.arcTo(x,y+h,x,y,r);
+        ctx.arcTo(x,y,x+w,y,r);
+        ctx.closePath();
+      }
+
+      function onDown(e){
+        e.preventDefault();
+        if(over) return;
+        jump();
+      }
+      wrap.addEventListener('pointerdown', onDown);
+      const startBtn=overlay.querySelector('#startBtn');
+      if(startBtn) startBtn.onclick=(e)=>{ e.stopPropagation(); overlay.style.display='none'; reset(); started=true; };
+
+      reset();
+      loop();
+
+      return ()=>{
+        cancelAnimationFrame(raf);
+        wrap.removeEventListener('pointerdown', onDown);
+      };
+    }},
+
+  { id:'appstore', name:'App Store', bg:'linear-gradient(180deg,#1e9bff,#0064d2)', icon:I.appstore,
+    render:()=>stub('🅰️','App Store','Khám phá ứng dụng & trò chơi mới mỗi ngày.') },
+
+  { id:'calendar', name:'Lịch', bg:'#fff', icon:I.calendar,
+    render:()=>stub('📅','Lịch','Hôm nay không có sự kiện nào.') },
+
+  { id:'health', name:'Sức khoẻ', bg:'#fff', icon:I.health,
+    render:()=>`<div class="app-inner" style="background:#000">
+      <div class="app-top"><span class="app-title">Sức khoẻ</span></div>
+      <div class="app-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          ${card('❤️','Nhịp tim','72','BPM')}
+          ${card('👟','Bước chân','8.432','bước')}
+          ${card('🔥','Calo','512','kcal')}
+          ${card('😴','Giấc ngủ','7h 12m','đêm qua')}
+        </div>
+      </div></div>` },
+
+  { id:'wallet', name:'Ví', bg:'#000', icon:I.wallet,
+    render:()=>stub('💳','Ví','Thẻ, vé và chìa khoá của bạn.') },
+
+  { id:'podcast', name:'Podcast', bg:'linear-gradient(180deg,#b06bff,#7d2ae8)', icon:I.podcast,
+    render:()=>stub('🎙️','Podcast','Nghe các tập mới nhất.') },
+
+  { id:'reminders', name:'Nhắc nhở', bg:'#fff', icon:I.reminders,
+    render:()=>stub('✅','Nhắc nhở','Không có nhắc nhở nào sắp tới.') },
+
+  { id:'compass', name:'La bàn', bg:'#1c1c1e', icon:I.compass,
+    render:()=>stub('🧭','La bàn','Hướng: Đông Bắc (NE) · 45°') },
+
+  { id:'tv', name:'TV', bg:'#000', icon:I.tv,
+    render:()=>stub('📺','TV','Phim và chương trình yêu thích.') },
+
+  { id:'phone', name:'Điện thoại', bg:'linear-gradient(180deg,#5ee07a,#28a745)', icon:I.phone,
+    render:()=>stub('📞','Điện thoại','Gần đây: 0912 345 678 · 3 phút trước') },
+
+  { id:'msg', name:'Tin nhắn', bg:'linear-gradient(180deg,#5ee07a,#28a745)', icon:I.msg,
+    render:()=>stub('💬','Tin nhắn','Chưa có tin nhắn mới.') }
+];
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function stub(emoji,title,desc){
+  return `<div class="app-inner" style="background:#000">
+    <div class="app-top"><span class="app-title">${title}</span></div>
+    <div class="stub"><div class="big">${emoji}</div><h3>${title}</h3><p>${desc}</p></div>
+  </div>`;
+}
+
+function card(emoji,label,val,unit){
+  return `<div style="background:rgba(255,255,255,.08);border-radius:16px;padding:16px;color:#fff">
+    <div style="font-size:20px">${emoji}</div>
+    <div style="font-size:12.5px;color:#8e8e93;margin-top:8px">${label}</div>
+    <div style="font-size:26px;font-weight:600;margin-top:2px">${val}</div>
+    <div style="font-size:11.5px;color:#636366">${unit}</div>
+  </div>`;
+}
+
+/* =========================================================
+   RENDER HOME SCREEN
+   ========================================================= */
+const dockIds = ['phone','safari','msg','music'];
+const gridApps = APPS.filter(a=>!dockIds.includes(a.id));
+const dockApps = dockIds.map(id=>APPS.find(a=>a.id===id)).filter(Boolean);
+
+function appEl(a){
+  return `<div class="app" data-app="${a.id}">
+    <div class="icon" style="background:${a.bg}">${a.icon}</div>
+    <span>${a.name}</span>
+  </div>`;
+}
+
+document.getElementById('appGrid').innerHTML = gridApps.map(appEl).join('');
+document.getElementById('dock').innerHTML = dockApps.map(appEl).join('');
+
+document.querySelectorAll('[data-app]').forEach(el=>{
+  el.addEventListener('click', ()=> openApp(el.dataset.app));
+});
+
+/* =========================================================
+   APP OPEN / CLOSE
+   ========================================================= */
+let currentCleanup = null;
+let currentAppId = null;
+const appView = document.getElementById('appView');
+const homeScreen = document.getElementById('homeScreen');
+
+function openApp(id){
+  const app = APPS.find(a=>a.id===id);
+  if(!app) return;
+  if(currentCleanup){ currentCleanup(); currentCleanup=null; }
+  appView.innerHTML = app.render ? app.render() : stub('📱',app.name,'');
+  appView.classList.add('show');
+  homeScreen.classList.add('hidden');
+  currentAppId = id;
+  if(app.init){
+    try{ currentCleanup = app.init(appView) || null; }catch(e){ console.warn(e); }
+  }
+  // island pulse
+  pulseIsland();
+}
+
+function closeApp(){
+  if(currentCleanup){ try{currentCleanup();}catch(e){} currentCleanup=null; }
+  appView.classList.remove('show');
+  homeScreen.classList.remove('hidden');
+  currentAppId = null;
+  setTimeout(()=>{ if(!currentAppId) appView.innerHTML=''; }, 350);
+}
+
+/* =========================================================
+   DYNAMIC ISLAND
+   ========================================================= */
+const island = document.getElementById('island');
+let islandTimer=null;
+island.addEventListener('click', ()=>{
+  island.classList.toggle('open');
+  if(island.classList.contains('open')){
+    clearTimeout(islandTimer);
+    islandTimer = setTimeout(()=>island.classList.remove('open'), 4000);
+  }
+});
+function pulseIsland(){
+  island.classList.add('open');
+  clearTimeout(islandTimer);
+  islandTimer = setTimeout(()=>island.classList.remove('open'), 2200);
+}
+
+/* =========================================================
+   CLOCK / STATUS BAR
+   ========================================================= */
+const VN_DAYS = ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
+function updateClocks(){
+  const d = new Date();
+  const hh = String(d.getHours()).padStart(2,'0');
+  const mm = String(d.getMinutes()).padStart(2,'0');
+  const t = hh+':'+mm;
+  document.getElementById('sbTime').textContent = t;
+  document.getElementById('lockTime').textContent = t;
+  document.getElementById('lockDate').textContent =
+    VN_DAYS[d.getDay()] + ', ' + d.getDate() + ' tháng ' + (d.getMonth()+1);
+}
+updateClocks();
+setInterval(updateClocks, 1000);
+
+/* =========================================================
+   LOCK SCREEN SWIPE
+   ========================================================= */
+const lockEl = document.getElementById('lockScreen');
+let dragging=false, startY=0, startT=0;
+
+lockEl.addEventListener('pointerdown', e=>{
+  if(e.target.closest('.lock-btn')) return;
+  dragging=true; startY=e.clientY; startT=Date.now();
+  lockEl.style.transition='none';
+});
+window.addEventListener('pointermove', e=>{
+  if(!dragging) return;
+  let dy = e.clientY - startY;
+  if(dy>0) dy = dy*0.25;
+  lockEl.style.transform = `translateY(${dy}px)`;
+  lockEl.style.opacity = String(Math.max(0, 1 + dy/500));
+});
+window.addEventListener('pointerup', e=>{
+  if(!dragging) return;
+  dragging=false;
+  lockEl.style.transition='';
+  const dy = e.clientY - startY;
+  const dt = Date.now() - startT;
+  if(dy < -90 || (dy < -40 && dt < 250)){
+    lockEl.style.transform='translateY(-110%)';
+    lockEl.style.opacity='0';
+    setTimeout(()=>{ lockEl.classList.add('hidden'); lockEl.style.transform=''; lockEl.style.opacity=''; }, 480);
+  } else {
+    lockEl.style.transform='';
+    lockEl.style.opacity='';
+  }
+});
+
+function lockPhone(){
+  lockEl.classList.remove('hidden');
+  lockEl.style.transform='translateY(-110%)';
+  lockEl.style.opacity='0';
+  requestAnimationFrame(()=>{
+    lockEl.style.transform='';
+    lockEl.style.opacity='1';
+  });
+  closeApp();
+}
+
+/* =========================================================
+   POWER BUTTON
+   ========================================================= */
+document.getElementById('powerBtn').addEventListener('click', ()=>{
+  if(lockEl.classList.contains('hidden')) lockPhone();
+  else {
+    lockEl.classList.add('hidden');
+    lockEl.style.transform='';
+    lockEl.style.opacity='';
+  }
+});
+
+/* =========================================================
+   HOME INDICATOR
+   ========================================================= */
+const hi = document.getElementById('homeIndicator');
+hi.addEventListener('click', ()=>{
+  if(currentAppId) closeApp();
+  else if(!lockEl.classList.contains('hidden')){
+    lockEl.style.transform='translateY(-110%)';
+    lockEl.style.opacity='0';
+    setTimeout(()=>{ lockEl.classList.add('hidden'); lockEl.style.transform=''; lockEl.style.opacity=''; }, 480);
+  }
+});
+
+/* =========================================================
+   FIT TO SCREEN
+   ========================================================= */
+function fit(){
+  const stage = document.getElementById('stage');
+  const s = Math.min(window.innerWidth/440, window.innerHeight/900, 1.15);
+  stage.style.transform = `scale(${s})`;
+}
+fit();
+window.addEventListener('resize', fit);
+
+/* Keyboard support */
+window.addEventListener('keydown', e=>{
+  if(e.key==='Escape' && currentAppId) closeApp();
+});
+</script>
 </body>
 </html>
-```
